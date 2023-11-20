@@ -51,7 +51,27 @@ public:
 		CurrInd--;
 		return pMem[CurrInd + 1];
 	}
-	// Clear
-
+	void Clear() {
+		CurrInd = -1;
+	}
+	
+	friend istream& operator>>(istream& in, TStack& s)
+	{
+		for (int i = 0; i < s.MaxSize; i++)
+			in >> s.pMem[i];
+		return in;
+	}
+	friend ostream& operator<<(ostream& out, const TStack& s)
+	{
+		if (s.CurrInd == -1) {
+			out << "Stack Is Empty" << endl;
+		}
+		else{
+			for (int i = 0; i < s.CurrInd; i++)
+				out << s.pMem[i] << ' ';
+			out << endl;
+		}
+		return out;
+	}
 };
 
