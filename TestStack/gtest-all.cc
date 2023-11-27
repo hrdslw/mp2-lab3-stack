@@ -30,7 +30,7 @@
 // Author: mheule@google.com (Markus Heule)
 //
 // Google C++ Testing Framework (Google Test)
-//
+//22222222222222
 // Sometimes it's desirable to build Google Test by compiling a single file.
 // This file serves this purpose.
 

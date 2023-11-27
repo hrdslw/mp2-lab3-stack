@@ -23,7 +23,7 @@ int main() {
 	cout << res;
 	*/
 
-	cin >> s;
+	//cin >> s;
 	s.Clear();
-	cout << s;
+	//cout << s;
 }

@@ -1,10 +1,10 @@
-#include "c/Git/mp3-lab3-stack/TStack.h"
+#include "../TStack/TStack.h"
 
-#include <gtest.h>
+#include "gtest.h"
 
 TEST(TStack, can_create_stack_with_positive_size)
 {
-  ASSERT_NO_THROW(TStack s(3));
+  ASSERT_NO_THROW(TStack<int> s(3));
 }
 /*
 TEST(TBitField, can_get_length)

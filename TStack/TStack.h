@@ -24,6 +24,10 @@ public:
 			pMem[i] = s.pMem[i];
 		}
 	}
+
+	~TStack() {
+		delete[] pMem;
+	}
 	
 	bool IsEmpty() {
 		if (CurrInd == -1)
@@ -51,27 +55,29 @@ public:
 		CurrInd--;
 		return pMem[CurrInd + 1];
 	}
+	
 	void Clear() {
 		CurrInd = -1;
+		delete[] pMem;
 	}
 	
-	friend istream& operator>>(istream& in, TStack& s)
-	{
+	/*friend istream& operator>>(istream& in, TStack& s) {
 		for (int i = 0; i < s.MaxSize; i++)
 			in >> s.pMem[i];
 		return in;
 	}
-	friend ostream& operator<<(ostream& out, const TStack& s)
-	{
+
+	friend ostream& operator<<(ostream& out, const TStack& s) {
 		if (s.CurrInd == -1) {
 			out << "Stack Is Empty" << endl;
 		}
-		else{
+		else {
 			for (int i = 0; i < s.CurrInd; i++)
 				out << s.pMem[i] << ' ';
 			out << endl;
 		}
 		return out;
 	}
+	*/
 };
 
