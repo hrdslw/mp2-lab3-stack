@@ -28,6 +28,10 @@ public:
 	~TStack() {
 		delete[] pMem;
 	}
+
+	int Size() {
+		return MaxSize;
+	}
 	
 	bool IsEmpty() {
 		if (CurrInd == -1)
