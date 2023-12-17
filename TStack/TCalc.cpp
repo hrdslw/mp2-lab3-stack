@@ -1,13 +1,6 @@
 ﻿#include "TCalc.h"
 #include <stdlib.h>
-int TCalc::Prior(const char el) {
-	if (el == '+' || el == '-')
-		return 1;
-	if (el == '*' || el == ':')
-		return 2;
-	if (el == '^')
-		return 3;
-}
+
 
 double TCalc::CalcPostfix() {
 	double x2, x1, y;

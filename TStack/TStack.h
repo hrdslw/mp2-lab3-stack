@@ -20,7 +20,7 @@ public:
 		MaxSize = s.MaxSize;
 		pMem = new T[MaxSize];
 		CurrInd = s.CurrInd;
-		for (int i = 0; i < CurrInd; i++) {
+		for (int i = 0; i <= CurrInd; i++) {
 			pMem[i] = s.pMem[i];
 		}
 	}
@@ -62,26 +62,7 @@ public:
 	
 	void Clear() {
 		CurrInd = -1;
-		delete[] pMem;
+		//delete[] pMem;
 	}
-	
-	/*friend istream& operator>>(istream& in, TStack& s) {
-		for (int i = 0; i < s.MaxSize; i++)
-			in >> s.pMem[i];
-		return in;
-	}
-
-	friend ostream& operator<<(ostream& out, const TStack& s) {
-		if (s.CurrInd == -1) {
-			out << "Stack Is Empty" << endl;
-		}
-		else {
-			for (int i = 0; i < s.CurrInd; i++)
-				out << s.pMem[i] << ' ';
-			out << endl;
-		}
-		return out;
-	}
-	*/
 };
 
