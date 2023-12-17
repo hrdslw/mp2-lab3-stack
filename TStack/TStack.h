@@ -62,7 +62,6 @@ public:
 	
 	void Clear() {
 		CurrInd = -1;
-		//delete[] pMem;
 	}
 };
 
