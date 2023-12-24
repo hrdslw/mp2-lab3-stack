@@ -3,16 +3,24 @@
 
 
 double TCalc::CalcPostfix() {
+	D.Clear();
 	double x2, x1, y;
 	for (int i = 0; i < postfix.length(); i++) {
 		if (postfix[i] >= '0' && postfix[i] <= '9')
 		{
 			D.Push(postfix[i] - '0');
 		}
-		else if ((postfix[i] == '+') || (postfix[i] == '-') || (postfix[i] == '*') || (postfix[i] == ':') || (postfix[i] == '^')) {
-			x2 = D.Pop();
-			x1 = D.Pop();
-			if (postfix[i] == '+')
+		if ((postfix[i] == '+') || (postfix[i] == '-') || (postfix[i] == '*') || (postfix[i] == ':') || (postfix[i] == '^')) {
+			
+			double x1 = 0; double x2 = 0; double  y = 0;
+			if (!D.IsEmpty())
+			{
+				x2 = D.Pop();
+			}
+			if (!D.IsEmpty())
+			{
+				x1 = D.Pop();
+			}			if (postfix[i] == '+')
 				y = x1 + x2;
 			else if (postfix[i] == '-')
 				y = x1 - x2;
@@ -21,11 +29,22 @@ double TCalc::CalcPostfix() {
 			else if (postfix[i] == ':')
 				y = x1 / x2;
 			else if (postfix[i] == '^')
-				y = pow(x1, x2);
+			{
+				int x3 = x2;
+				y = pow(x1, x3);
+			}
 			D.Push(y);
 		}
 	}
-	return D.Pop();
+	double res;
+	if (!D.IsEmpty())
+		res = D.Pop();
+	else
+		throw "Empty stack.";
+
+	if (!D.IsEmpty())
+		throw "Problems with brackets.";
+	return res;
 }
 
 void TCalc::ToPostfix() {
@@ -42,7 +61,7 @@ void TCalc::ToPostfix() {
 				postfix += el;
 				el = C.Pop();
 			}
-			if ((postfix[i] == '+') || (postfix[i] == '-') || (postfix[i] == '*') || (postfix[i] == ':') || (postfix[i] == '^')) {
+			if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/') || (str[i] == '^')) {
 				char el = C.Pop();
 				while (Prior(el) >= Prior(str[i])) {
 					postfix += el;
@@ -56,46 +75,99 @@ void TCalc::ToPostfix() {
 double TCalc::Calc() {
 	C.Clear(); D.Clear();
 	string str = '(' + infix + ')';
-	for (int i = 0; i < str.size(); i++) {					// ïðîâåðêà óñëîâèé äëÿ ïîäñ÷åòà îïåðàöèé
+	char* tmp;
+	double res;
+
+	for (int i = 0; i < str.size(); i++)
+	{
+
 		if (str[i] == '(') C.Push(str[i]);
-		if (str[i] == ')') {
-			char el = C.Pop();
-			while (el != ')') {
-				double x1 = D.Pop();
-				double x2 = D.Pop();
-				double y = 0;
-				if (el == '+') y = x1 + x2;
-				if (el == '-') y = x1 - x2;
-				if (el == '*') y = x1 * x2;
-				if (el == '/') y = x1 / x2;					// äîáàâèòü ôóíêöèþ ^ - âîçâåäåíèå â ñòåïåíü, ïðèîðèòåò = 3
-				D.Push(y);
-				el = C.Pop();
-			}
-		}
-		if ((str[i] >= '0') && (str[i] <= '9')) {				//Вычисление числа 
-			size_t pos;
-			double x;
-			x = stod(&str[i], &pos);
+		if (str[i] >= '0' && str[i] <= '9' || str[i] == '.' || str[i] == ',')
+		{
+			double x = strtod(&str[i], &tmp);
+			int j = tmp - &str[i];
+			i += j - 1;
 			D.Push(x);
-			i = i + pos - 1;
 		}
-		if ((str[i] == '+') || (str[i] == '-') || (str[i] == '*') || (str[i] == '/')) {			//äîáàâëÿåò â ñòåê îïåðàíäû, âû÷èñëÿåò, åñëè
-			char el = C.Pop();																//ïðèîðèòåò ìåíüøå, ÷òî ñ÷èòàåò
-			while (Prior(el) > Prior(str[i])) {
-				double y;
-				double x2 = D.Pop();
-				double x1 = D.Pop();
-				if (el == '+') y = x1 + x2;
-				if (el == '-') y = x1 - x2;
-				if (el == '*') y = x1 * x2;
-				if (el == '/') y = x1 / x2;	// ìîæåò áûòü íåòî÷íûé îòâåò. Ïðè òåñòå ñðàâíèâàåì íå âðó÷íóþ âáèòûå çíà÷åíèÿ, à òî, ÷òî ïîñ÷èòàåò êîìïèëÿòîð
-				D.Push(y);
-				el = C.Pop();
+		if (str[i] == '(' && str[i + 1] == '-')
+		{
+			int j = i + 1;
+			str.insert(j, 1, '0');
+		}
+		if (str[i] == '+' || str[i] == '-' || str[i] == '/' || str[i] == '*' || str[i] == '^')
+		{
+			char tmp = C.Pop();
+			while (Prior(str[i]) <= Prior(tmp))
+			{
+				char op = tmp;
+				tmp = C.Pop();
+				if (op == '+' || op == '-' || op == '*' || op == '/' || op == '^')
+				{
+					double op1 = D.Pop();
+					double op2 = D.Pop();
+					switch (op)
+					{
+					case '+':
+						res = op1 + op2;
+						break;
+					case  '-':
+						res = op2 - op1;
+						break;
+					case '*':
+						res = op1 * op2;
+						break;
+					case '/':
+						res = op2 / op1;
+						break;
+					case '^':
+						res = pow(op2, op1);
+						break;
+					default:
+						if (C.IsEmpty()) throw - 1;
+					}
+					D.Push(res);
+				}
 			}
-			C.Push(el);
+			C.Push(tmp);
 			C.Push(str[i]);
 		}
+		if (str[i] == ')')
+		{
+			char op = C.Pop();
+			while (op != '(')
+			{
+				if (op == '+' || op == '-' || op == '*' || op == '/' || op == '^')
+				{
+					double op1 = D.Pop();
+					double op2 = D.Pop();
+					switch (op)
+					{
+					case '+':
+						res = op1 + op2;
+						break;
+					case  '-':
+						res = op2 - op1;
+						break;
+					case '*':
+						res = op1 * op2;
+						break;
+					case '/':
+						res = op2 / op1;
+						break;
+					case '^':
+						res = pow(op2, op1);
+						break;
+					default:
+						if (C.IsEmpty()) throw - 1;
+					}
+					D.Push(res);
+				}
+				op = C.Pop();
+			}
+		}
 	}
+	
 	return D.Pop();
 }
+
 

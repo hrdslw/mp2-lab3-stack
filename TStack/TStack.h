@@ -56,6 +56,7 @@ public:
 	T Pop() {
 		if (CurrInd == -1)
 			throw ("Stack is empty");
+
 		CurrInd--;
 		return pMem[CurrInd + 1];
 	}
