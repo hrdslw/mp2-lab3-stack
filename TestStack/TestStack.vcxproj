@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_SILENCE_TR1_NAMESPACE_DEPRECATION_WARNING;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
@@ -127,12 +127,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\TStack\TCalc.cpp" />
     <ClCompile Include="gtest-all.cc" />
     <ClCompile Include="test_main.cpp" />
-    <ClCompile Include="test_tqueue.cpp" />
+    <ClCompile Include="test_tcalc.cpp" />
     <ClCompile Include="test_tstack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\TStack\TCalc.h" />
+    <ClInclude Include="..\TStack\TStack.h" />
     <ClInclude Include="gtest.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

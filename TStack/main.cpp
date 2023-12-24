@@ -8,7 +8,6 @@ int main() {
 	
 	
 	TCalc s("(2 + 2) ^ 3 + (3 * 4) ^ 2");
-	s.ToPostfix();
 	cout << s.Calc();
 	
 }
